@@ -1,0 +1,986 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>SafePharma.id</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Konsep: majalah sains ramah. Navigasi atas, banner geser besar, kartu bersudut membulat, ilustrasi partikel dan molekul sebagai motif berulang. */
+:root{
+  --bg:#F1EADB; --surface:#F8F3E8; --fg:#12363A; --muted:#4F6663;
+  --moss:#6E8450; --moss-ink:#3F5330; --rose:#B68B86; --rose-soft:#E6D0CC; --midnight:#12363A; --line:#D9CDB4;
+  --on-dark:#F1EADB;
+  --f-display:'Bricolage Grotesque','Trebuchet MS',sans-serif;
+  --f-body:'Nunito','Segoe UI',system-ui,sans-serif;
+  --f-mono:'DM Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0C2528; --surface:#12363A; --fg:#F1EADB; --muted:#B5C2BA;
+  --moss:#9DB57A; --moss-ink:#C6D8A9; --rose:#D2A8A3; --rose-soft:#3A3433; --line:#27494C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C2528; --surface:#12363A; --fg:#F1EADB; --muted:#B5C2BA;
+  --moss:#9DB57A; --moss-ink:#C6D8A9; --rose:#D2A8A3; --rose-soft:#3A3433; --line:#27494C; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.65 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.wrap{max-width:1120px;margin-inline:auto}
+.mono{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:800 1.3rem var(--f-display);text-decoration:none}
+.logo small{font-weight:500;color:var(--moss-ink)}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{padding:8px 16px;border-radius:99px;text-decoration:none;font-weight:700;font-size:.95rem}
+nav a[aria-current="page"]{background:var(--midnight);color:var(--on-dark)}
+nav a:hover:not([aria-current]){background:var(--rose-soft)}
+.theme{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;font-size:.85rem;font-weight:700}
+
+/* pages */
+.page{padding-block:28px 56px}
+.eyebrow{color:var(--moss-ink);margin-bottom:10px;display:block}
+
+/* carousel */
+.carousel{position:relative}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:28px;gap:0}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;position:relative;min-width:0}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.dot{width:10px;height:10px;border-radius:99px;border:0;background:var(--line);padding:0;transition:width .25s,background .25s}
+.dot[aria-current="true"]{width:30px;background:var(--moss)}
+.arrow{position:absolute;top:50%;translate:0 -50%;width:44px;height:44px;border-radius:50%;border:0;background:var(--surface);color:var(--fg);font-size:1.3rem;box-shadow:0 2px 10px #0003;z-index:3}
+.arrow.prev{left:12px}.arrow.next{right:12px}
+@media (hover:none){.arrow{display:none}}
+
+/* hero slides */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:480px;color:var(--on-dark);overflow:hidden;border-radius:28px}
+.hero.a{background:var(--midnight)}
+.hero.b{background:var(--moss-ink);background:#4A5F37}
+.hero .txt{padding:clamp(24px,5vw,56px);display:flex;flex-direction:column;justify-content:center;gap:18px;position:relative;z-index:2}
+.hero h1{font-size:clamp(2.2rem,5.4vw,4.1rem);font-weight:800}
+.hero h1 em{font-style:normal;color:#E6B9B3}
+.hero p{max-width:46ch;opacity:.92}
+.hero .pic{position:relative;min-height:240px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 12px;border-radius:99px;border:1px solid #F1EADB55;font-size:.8rem}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:99px;background:var(--rose);color:#12363A;font-weight:800;text-decoration:none;border:0;align-self:flex-start}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:inherit;border:2px solid currentColor}
+
+/* editable image slots */
+.slot{position:absolute;inset:0;background-size:cover;background-position:center}
+.slot svg{width:100%;height:100%;display:block}
+.slot.has-img svg{display:none}
+.swap{position:absolute;right:12px;bottom:12px;z-index:4;background:#12363Acc;color:#F1EADB;border:1px solid #F1EADB66;border-radius:99px;padding:6px 12px;font-size:.78rem;font-weight:700}
+.swap:hover{background:#12363A}
+
+.gal-static {
+  aspect-ratio: 18/25;
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.prod-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* sections */
+.sec{margin-top:72px}
+.sec h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800;margin-bottom:12px}
+.lead{color:var(--muted);max-width:62ch}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:28px}
+.pill{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pill:nth-child(2){background:var(--moss);color:#12251A;border-color:transparent}
+.pill:nth-child(2) .mono{color:#12251A}
+.pill:nth-child(3){background:var(--rose-soft)}
+.pill h3{font-size:1.7rem}
+.pill svg{width:54px;height:54px}
+.urgency{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:24px}
+.urg{border-left:4px solid var(--rose);padding:4px 0 4px 16px}
+.urg b{font-family:var(--f-display);font-size:1.15rem;display:block}
+.band{background:var(--midnight);color:var(--on-dark);border-radius:28px;padding:clamp(24px,5vw,48px);display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+.band .lead{color:#C9D6CC}
+.flow{display:flex;gap:0;align-items:center;flex-wrap:wrap;justify-content:center}
+.flow span{background:#F1EADB1a;border:1px solid #F1EADB44;padding:8px 14px;border-radius:99px;font-size:.85rem}
+.flow i{width:20px;height:2px;background:var(--rose)}
+
+/* product */
+.prod{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
+.gal .slide{aspect-ratio:4/3;border-radius:28px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.cap{position:absolute;left:14px;top:14px;z-index:3;background:var(--surface);color:var(--fg);padding:5px 12px;border-radius:99px;font-size:.72rem}
+.info{display:flex;flex-direction:column;gap:18px;min-width:0}
+.info h1{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:800}
+.info h2{font-size: 1.4rem; font-weight: 700; color: var(--muted); margin-top: 4px;}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{background:var(--rose-soft);padding:4px 12px;border-radius:99px;font-size:.72rem;color:var(--fg)}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:10px 16px;text-align:left;font-weight:700;line-height:1.25}
+.opt small{display:block;font-weight:400;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--moss);background:var(--moss);color:#12251A}
+.opt[aria-pressed="true"] small{color:#1F3322}
+.opt-note{background:var(--surface);border:1px dashed var(--moss);border-radius:16px;padding:14px 16px;font-size:.95rem}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:36px}
+.tab{border:0;background:var(--surface);padding:10px 18px;border-radius:99px;font-weight:700;border:1px solid var(--line)}
+.tab[aria-selected="true"]{background:var(--midnight);color:var(--on-dark);border-color:var(--midnight)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,3vw,32px);margin-top:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:16px}
+.kv{background:var(--bg);border-radius:18px;padding:16px;min-width:0}
+.kv .mono{color:var(--moss-ink)}
+.kv b{display:block;font-family:var(--f-display);font-size:1.25rem;margin:2px 0}
+.warn{margin-top:16px;border-left:4px solid var(--rose);padding:8px 14px;background:var(--rose-soft);border-radius:0 12px 12px 0;font-size:.93rem}
+ul.use{margin:12px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+ul.use li{background:var(--bg);border-radius:14px;padding:12px 14px 12px 40px;position:relative}
+ul.use li::before{content:"";position:absolute;left:14px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--moss)}
+
+
+/* Tombol jurnal */
+.journal-btn {
+  margin-top: 8px;
+  align-self: flex-start;
+  font-size: .9rem;
+  transition: .25s ease;
+}
+
+.journal-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 14px #0002;
+}
+
+/* ================= JOURNAL PAGE ================= */
+
+#p-jurnal {
+  padding-top: 42px;
+}
+
+#p-jurnal > h1 {
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+
+#p-jurnal > .lead {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.jgrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 28px;
+  align-items: stretch;
+}
+
+details.j,
+article.j {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 26px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s ease,
+              box-shadow .25s ease,
+              border-color .25s ease;
+}
+
+article.j:hover {
+  transform: translateY(-4px);
+  border-color: var(--moss);
+  box-shadow: 0 10px 25px #12363A12;
+}
+
+.j .body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+}
+
+.j .mono {
+  display: inline-flex;
+  align-items: center;
+  background: var(--rose-soft);
+  color: var(--moss-ink);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: .7rem;
+}
+
+.j h3 {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  line-height: 1.4;
+  font-weight: 800;
+  color: var(--fg);
+}
+
+.j .description {
+  font-family: var(--f-body);
+  font-size: .96rem;
+  line-height: 1.85;
+  color: var(--muted);
+  text-align: left;
+}
+
+.j .journal-btn {
+  margin-top: auto;
+  padding: 11px 20px;
+  font-size: .88rem;
+  border-radius: 99px;
+}
+
+@media (max-width: 760px) {
+  .jgrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  article.j {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .j h3 {
+    font-size: 1.2rem;
+  }
+
+  .j .description {
+    font-size: .92rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  article.j {
+    transition: none;
+  }
+}
+
+
+
+/* about */
+
+.team-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:24px}
+.person{background:var(--surface);border:1px solid var(--line);border-radius:28px;overflow:hidden;min-width:0}
+.person .ph{position:relative;aspect-ratio:1/1}
+.person .tx{padding:18px 22px 24px}
+.person h3{font-size:1.4rem}
+footer{border-top:1px solid var(--line);padding-block:28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+
+@media (max-width:760px){
+  .hero,.prod,.band{grid-template-columns:1fr}
+  .hero{min-height:0}.hero .pic{order:-1;min-height:200px}
+  .nav-wrap{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+   Laptop, iPad, Tablet, dan Mobile
+========================================= */
+
+/* Mencegah elemen melewati lebar layar */
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+/* Semua grid lebih fleksibel */
+.prod,
+.hero,
+.band,
+.jgrid,
+.team,
+.pillars,
+.urgency {
+  min-width: 0;
+}
+
+.prod > *,
+.hero > *,
+.band > *,
+.jgrid > *,
+.team > * {
+  min-width: 0;
+}
+
+/* =========================================
+   LAPTOP / DESKTOP
+========================================= */
+@media (min-width: 1200px) {
+  .wrap {
+    max-width: 1120px;
+  }
+
+  .page {
+    padding-block: 36px 64px;
+  }
+
+  .hero {
+    min-height: 500px;
+  }
+
+  .jgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .team {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================================
+   IPAD / TABLET LANDSCAPE
+========================================= */
+@media (min-width: 761px) and (max-width: 1199px) {
+  body {
+    padding-inline: 24px;
+  }
+
+  .wrap {
+    max-width: 100%;
+  }
+
+  .bar {
+    gap: 10px;
+  }
+
+  nav a {
+    padding: 8px 12px;
+    font-size: .88rem;
+  }
+
+  .hero {
+    min-height: 400px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+  }
+
+  .hero .txt {
+    padding: 30px;
+  }
+
+  .prod {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .info h1 {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  }
+
+  .band {
+    grid-template-columns: 1fr;
+  }
+
+  .jgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .team {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .person:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========================================
+   IPAD / TABLET PORTRAIT
+========================================= */
+@media (min-width: 761px) and (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero .pic {
+    order: -1;
+    min-height: 280px;
+  }
+
+  .hero .txt {
+    padding: 30px;
+  }
+
+  .prod {
+    grid-template-columns: 1fr;
+  }
+
+  .gal-static {
+    max-width: 620px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .band {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE PHONE
+========================================= */
+@media (max-width: 760px) {
+  body {
+    padding-inline: 14px;
+  }
+
+  .wrap {
+    width: 100%;
+  }
+
+  /* Header dan navigasi */
+  .bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding-block: 12px;
+  }
+
+  .logo {
+    font-size: 1.15rem;
+  }
+
+  nav {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-content: center;
+    gap: 3px;
+  }
+
+  nav a {
+    padding: 8px 11px;
+    font-size: .82rem;
+  }
+
+  .theme {
+    padding: 7px 11px;
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+
+  /* Jarak halaman */
+  .page {
+    padding-block: 24px 42px;
+  }
+
+  .sec {
+    margin-top: 48px;
+  }
+
+  /* Hero */
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    border-radius: 22px;
+  }
+
+  .hero .pic {
+    order: -1;
+    min-height: 220px;
+  }
+
+  .hero .txt {
+    padding: 26px 22px 30px;
+    gap: 14px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .hero p {
+    font-size: .93rem;
+  }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Bagian isi poster */
+  .pillars,
+  .urgency {
+    grid-template-columns: 1fr;
+  }
+
+  .pill {
+    padding: 22px;
+  }
+
+  .band {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+
+  .flow {
+    gap: 8px;
+  }
+
+  .flow span {
+    padding: 7px 10px;
+    font-size: .75rem;
+  }
+
+  .flow i {
+    width: 12px;
+  }
+
+  /* Halaman karya */
+  .prod {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .gal-static {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+  }
+
+  .prod-img {
+    object-fit: contain;
+  }
+
+  .info h1 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .info h2 {
+    font-size: 1.15rem;
+  }
+
+  .info p {
+    font-size: .91rem;
+    line-height: 1.8;
+  }
+
+  /* Halaman jurnal */
+  #p-jurnal {
+    padding-top: 28px;
+  }
+
+  #p-jurnal > h1 {
+    font-size: clamp(2rem, 8vw, 2.8rem) !important;
+  }
+
+  #p-jurnal > .lead {
+    font-size: .93rem;
+    margin-bottom: 24px;
+  }
+
+  .jgrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  article.j {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .j h3 {
+    font-size: 1.15rem;
+  }
+
+  .j .description {
+    font-size: .91rem;
+    line-height: 1.8;
+  }
+
+  .j .journal-btn {
+    padding: 11px 18px;
+  }
+
+  /* Halaman tentang */
+  .team {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .person {
+    border-radius: 22px;
+  }
+
+  .person .ph {
+    aspect-ratio: 4 / 3;
+  }
+
+  .person .tx {
+    padding: 18px 20px 22px;
+  }
+
+  .person h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Footer */
+  footer {
+    flex-direction: column;
+    gap: 6px;
+    font-size: .8rem;
+    padding-block: 22px;
+  }
+}
+
+/* =========================================
+   MOBILE KECIL
+========================================= */
+@media (max-width: 380px) {
+  body {
+    padding-inline: 10px;
+  }
+
+  nav a {
+    padding: 7px 8px;
+    font-size: .75rem;
+  }
+
+  .logo {
+    font-size: 1.05rem;
+  }
+
+  .theme {
+    font-size: .72rem;
+    padding: 6px 9px;
+  }
+
+  .hero .txt {
+    padding: 22px 18px;
+  }
+
+  .hero .pic {
+    min-height: 180px;
+  }
+
+  .j .mono {
+    font-size: .62rem;
+  }
+
+  .flow span {
+    font-size: .7rem;
+    padding: 6px 8px;
+  }
+}
+
+/* Menghormati preferensi animasi perangkat */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+</style>
+
+<header>
+ <div class="wrap bar">
+  <a class="logo" href="#beranda" aria-label="SafePharma.id beranda">
+   <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="14" width="34" height="13" rx="6.5" transform="rotate(-35 20 20)" fill="#B68B86"/><path d="M12 29.5 20 20l8 -9.5a6.5 6.5 0 0 1 0 0" fill="none"/><rect x="3" y="14" width="17" height="13" rx="6.5" transform="rotate(-35 20 20)" fill="#6E8450"/><circle cx="31" cy="31" r="3" fill="#12363A"/><circle cx="8" cy="9" r="2" fill="#6E8450"/></svg>
+   <span>SafePharma<small>.id</small></span>
+  </a>
+  <nav id="nav" aria-label="Menu utama">
+   <a href="#beranda">Beranda</a><a href="#produk">Karya</a><a href="#jurnal">Jurnal</a><a href="#tentang">Tentang</a>
+  </nav>
+  <button class="theme" id="themeBtn" type="button">Mode gelap</button>
+ </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ BERANDA ============ -->
+<section class="page" id="p-beranda">
+ <div class="carousel" id="heroC">
+  <button class="arrow prev" type="button" aria-label="Sebelumnya">‹</button>
+  <button class="arrow next" type="button" aria-label="Berikutnya">›</button>
+  <div class="track">
+   <div class="slide"><div class="hero a">
+     <div class="txt">
+      <span class="mono" style="color:#E6B9B3">Poster edukasi farmasi</span>
+      <h1>From Particles <em>to Protection</em></h1>
+      <p>Obat bekerja dari ukuran yang tak terlihat. Pahami bagaimana partikel kecil menentukan keamanan yang kita rasakan setiap hari.</p>
+      <div class="chips"><span class="chip">Learn</span><span class="chip">Compound</span><span class="chip">Protect</span></div>
+      <a class="btn" href="#produk">Mulai belajar →</a>
+     </div>
+     <div class="pic"><div class="slot" data-slot="hero1"><svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="480" fill="#1B4A4F"/><g fill="#6E8450"><circle cx="90" cy="110" r="46" opacity=".9"/><circle cx="250" cy="70" r="22"/><circle cx="330" cy="190" r="64" opacity=".85"/><circle cx="160" cy="260" r="30"/><circle cx="70" cy="380" r="58" opacity=".8"/><circle cx="260" cy="400" r="38"/></g><g fill="#B68B86"><circle cx="190" cy="150" r="14"/><circle cx="300" cy="320" r="18"/><circle cx="130" cy="430" r="10"/><circle cx="360" cy="60" r="9"/><circle cx="40" cy="250" r="12"/></g><g fill="none" stroke="#F1EADB" stroke-opacity=".5" stroke-width="2"><path d="M190 150 L250 70 M190 150 L160 260 M300 320 L330 190 M300 320 L260 400 M160 260 L260 400"/></g></svg></div>
+      </div>
+   </div></div>
+
+   <div class="slide"><div class="hero b">
+     <div class="txt">
+      <span class="mono" style="color:#F0D4CF">Urgensi hari ini</span>
+      <h1>Learn. Compound. <em>Protect.</em></h1>
+      <p>Swamedikasi makin umum, informasi obat ada di mana-mana. Kami merangkumnya agar semua kalangan dapat memakai obat dengan benar dan aman.</p>
+      <a class="btn ghost" href="#jurnal">Baca jurnal pendukung →</a>
+     </div>
+     <div class="pic"><div class="slot" data-slot="hero2"><svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="480" fill="#5B7243"/><g transform="translate(200 240)"><g fill="none" stroke="#F1EADB" stroke-width="5" stroke-linejoin="round"><path d="M0 -110 95 -55 95 55 0 110 -95 55 -95 -55Z"/><path d="M0 -50 43 -25 43 25 0 50 -43 25 -43 -25Z" stroke="#E6B9B3"/></g><g fill="#12363A"><circle cx="0" cy="-110" r="14"/><circle cx="95" cy="-55" r="14"/><circle cx="95" cy="55" r="14"/><circle cx="0" cy="110" r="14"/><circle cx="-95" cy="55" r="14"/><circle cx="-95" cy="-55" r="14"/></g><circle r="12" fill="#B68B86"/></g></svg></div>
+      </div>
+   </div></div>
+  </div>
+  <div class="dots" role="tablist" aria-label="Pilih banner"></div>
+ </div>
+
+ <div class="sec">
+  <span class="mono eyebrow">Isi poster</span>
+  <h2>Tiga langkah dari partikel menuju perlindungan</h2>
+  <p class="lead">Poster “From Particles to Protection” menjelaskan alur sederhana: memahami obat, meraciknya dengan tepat, lalu menggunakannya untuk melindungi diri dan keluarga.</p>
+  <div class="pillars">
+   <article class="pill"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M7 14c8-4 14-3 20 2 6-5 12-6 20-2v28c-8-4-14-3-20 2-6-5-12-6-20-2Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M27 16v28" stroke="currentColor" stroke-width="3"/></svg><span class="mono">Langkah 1</span><h3>Learn</h3><p>Kenali nama, kekuatan, kegunaan, dan cara kerja obat. Pengetahuan dasar mencegah salah pakai.</p></article>
+   <article class="pill"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M10 20h34l-4 22a6 6 0 0 1-6 5H20a6 6 0 0 1-6-5Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="21" cy="12" r="3" fill="currentColor"/><circle cx="31" cy="9" r="2" fill="currentColor"/><circle cx="37" cy="14" r="3" fill="currentColor"/></svg><span class="mono">Langkah 2</span><h3>Compound</h3><p>Ukuran partikel, pelarut, dan bentuk sediaan menentukan seberapa cepat obat larut dan diserap tubuh.</p></article>
+   <article class="pill"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M27 6 45 13v13c0 11-8 18-18 22C17 44 9 37 9 26V13Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="m19 27 6 6 11-12" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="mono">Langkah 3</span><h3>Protect</h3><p>Pakai sesuai aturan, simpan dengan benar, dan tahu kapan harus bertanya pada apoteker atau dokter.</p></article>
+  </div>
+ </div>
+
+ <div class="sec">
+  <span class="mono eyebrow">Mengapa penting di Indonesia</span>
+  <h2>Obat ada di rumah kita, pengetahuannya perlu ikut</h2>
+  <div class="urgency">
+   <div class="urg"><b>Swamedikasi</b>Banyak keluarga mengobati diri sendiri dengan obat bebas sebelum ke fasilitas kesehatan.</div>
+   <div class="urg"><b>Resistensi antimikroba</b>Penggunaan antibiotik yang tidak tepat membuat kuman makin sulit diobati.</div>
+   <div class="urg"><b>Informasi simpang siur</b>Media sosial cepat menyebar, tidak semuanya berbasis bukti ilmiah.</div>
+   <div class="urg"><b>Dosis anak</b>Perbedaan kecil pada sediaan cair dan takaran dapat berdampak besar pada anak.</div>
+  </div>
+ </div>
+
+ <div class="sec band">
+  <div>
+   <span class="mono eyebrow" style="color:#E6B9B3">Konsep utama</span>
+   <h2>Mengapa ukuran partikel penting?</h2>
+   <p class="lead">Obat padat harus larut lebih dulu sebelum diserap. Partikel yang lebih halus punya permukaan lebih luas sehingga cenderung larut lebih cepat. Itu sebabnya proses peracikan dan formulasi menentukan mutu perlindungan.</p>
+   <p style="margin-top:18px"><a class="btn" href="#produk">Lihat Poster</a></p>
+  </div>
+  <div class="flow" aria-label="Alur dari partikel ke efek"><span>Partikel</span><i></i><span>Disolusi</span><i></i><span>Absorpsi</span><i></i><span>Efek</span></div>
+ </div>
+</section>
+
+<!-- ============ PRODUK ============ -->
+<section class="page" id="p-produk" hidden>
+ <div class="prod">
+<div class="gal-static">
+   <img src="assets/poster.jpeg" alt="Poster From Particles to Protection" class="prod-img">
+ </div>
+
+  <div class="info">
+   <div>
+    <span class="mono eyebrow">Poster</span>
+    <h1>FROM PARTICLES TO PROTECTION:</h1>
+    <h2>A Pharmaceutical Approach to Respiratory Health</h2>
+   </div>
+   <p style="background: var(--rose-soft); border-radius: 16px; padding: 16px 20px; color: var(--fg);">
+   Seberapa bahaya polusi PM2.5 yang kita hirup setiap hari? 
+   Poster ini membahas PM2.5 sebagai partikel halus ≤2,5 µm dari transportasi, industri, karhutla, dan asap rokok yang mampu menembus hingga alveolus dan meningkatkan risiko asma dan PPOK, dengan dampak di Indonesia yang sangat nyata dimana laporan CREA September 2026 mencatat 5.310 kematian terkait polusi udara dan 333.470 kasus ISPA di tujuh provinsi dengan baku mutu Indonesia 55 µg/m³ yang jauh di atas pedoman WHO 15 µg/m³; di dalam paru PM2.5 memicu pembentukan ROS, stres oksidatif, dan aktivasi jalur inflamasi NF-κB yang merusak pertahanan mukosilier, sehingga pendekatan farmasi hadir melalui inovasi Dry Powder Inhaler (DPI), Soft Mist Inhaler (SMI), dan Smart Inhaler berbasis sensor digital, dimana apoteker berperan kunci dalam pemilihan perangkat, edukasi teknik inhalasi dengan metode teach-back, dan pemantauan kepatuhan terapi yang harus didukung proteksi seperti pemantauan AQI, respirator, filtrasi udara, dan pengendalian emisi.
+</p>
+ </div>
+ </div>
+  <div class="jgrid" id="jprod"></div>
+ </div>
+</section>
+
+<!-- ============ JURNAL ============ -->
+<section class="page" id="p-jurnal" hidden>
+ <span class="mono eyebrow">Bacaan jurnal farmasi</span>
+ <h1 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800">Jurnal pendukung poster</h1>
+ <p class="lead" style="margin-top:14px">Perluas wawasan dengan membaca jurnal ilmiah yang menjadi referensi dalam penyusunan poster. Setiap ringkasan menyajikan inti pembahasan penelitian agar informasi yang kompleks dapat dipahami secara lebih sederhana.</p>
+ <div class="jgrid" id="jall"></div>
+</section>
+
+<!-- ============ TENTANG ============ -->
+<section class="page" id="p-tentang" hidden>
+ <span class="mono eyebrow">Tentang kami</span>
+ <h1 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800">Knowledge Today, Healthier Tomorrow</h1>
+ <p class="lead" style="margin-top:14px">SafePharma.id adalah situs edukasi yang menjelaskan poster “From Particles to Protection” dalam bacaan yang mudah diikuti semua kalangan.</p>
+ <div class="team" id="team"></div>
+ <div class="sec band">
+  <div>
+   <h2>Learn. Compound. Protect.</h2>
+   <p class="lead">Setiap pengetahuan memiliki peran, setiap formulasi membawa manfaat, dan setiap langkah kecil berarti bagi kesehatan.</p>
+  </div>
+  <div class="flow"><span>Jurnal</span><i></i><span>Poster</span><i></i><span>Website</span><i></i><span>Masyarakat</span></div>
+ </div>
+</section>
+
+</main>
+
+<footer class="wrap"><span>© 2026 SafePharma.id</span><span>Konten edukasi, bukan pengganti saran dokter atau apoteker.</span></footer>
+
+<script>
+/* ---------- data ---------- */
+var TABS={
+ guna:{h:"Kegunaan",html:'<ul class="use"><li>Meredakan nyeri ringan hingga sedang, misalnya sakit kepala dan nyeri gigi</li><li>Menurunkan demam</li><li>Pilihan umum bagi yang tidak cocok dengan obat antiinflamasi nonsteroid</li><li>Dapat diberikan pada berbagai usia sesuai petunjuk label</li></ul><div class="warn">Jangan menggabungkan beberapa produk yang sama-sama mengandung parasetamol. Hubungi dokter bila demam berlanjut atau ada penyakit hati.</div>'},
+ pk:{h:"Farmakokinetik",html:'<p>Perjalanan obat di dalam tubuh, singkatnya ADME.</p><div class="grid2"><div class="kv"><span class="mono">Absorpsi</span><b>Cepat</b>Diserap baik di saluran cerna. Kadar puncak umumnya sekitar 30 sampai 60 menit setelah tablet.</div><div class="kv"><span class="mono">Distribusi</span><b>Luas</b>Menyebar ke sebagian besar jaringan, ikatan protein plasma rendah.</div><div class="kv"><span class="mono">Metabolisme</span><b>Hati</b>Terutama lewat glukuronidasi dan sulfasi. Sebagian kecil menjadi metabolit reaktif yang dinetralkan glutation.</div><div class="kv"><span class="mono">Eliminasi</span><b>Ginjal</b>Dikeluarkan lewat urin sebagai metabolit. Waktu paruh sekitar 2 jam pada dewasa sehat.</div></div>'},
+ pd:{h:"Farmakodinamik",html:'<p>Apa yang obat lakukan pada tubuh.</p><div class="grid2"><div class="kv"><span class="mono">Target</span><b>Jalur COX di otak</b>Menghambat pembentukan prostaglandin terutama di sistem saraf pusat.</div><div class="kv"><span class="mono">Efek analgesik</span><b>Naik ambang nyeri</b>Nyeri terasa lebih ringan tanpa membuat mengantuk.</div><div class="kv"><span class="mono">Efek antipiretik</span><b>Atur suhu</b>Bekerja pada pusat pengatur suhu di hipotalamus.</div><div class="kv"><span class="mono">Antiinflamasi</span><b>Lemah</b>Tidak dipilih untuk peradangan berat.</div></div>'},
+ partikel:{h:"Partikel",html:'<p>Inilah penghubung ke judul poster. Pada tablet, partikel zat aktif harus larut sebelum diserap.</p><div class="grid2"><div class="kv"><span class="mono">Partikel halus</span><b>Luas permukaan besar</b>Cenderung larut lebih cepat.</div><div class="kv"><span class="mono">Partikel kasar</span><b>Larut lebih lambat</b>Onset bisa tertunda.</div><div class="kv"><span class="mono">Formulasi</span><b>Compound</b>Pengisi, pengikat, dan penghancur ikut menentukan disolusi.</div></div><div class="warn">Konten ini penjelasan edukatif. Perubahan formulasi hanya dilakukan oleh industri atau apoteker berwenang.</div>'}
+};
+
+var JOURNALS = [
+ {
+  t: "Analisis PM 2.5 dan upaya mitigasi dalam pengelolaan kualitas udara di Kawasan Industri Tanjung Morawa B",
+  p: "Penelitian Kualitas Udara",
+  s: "Mengukur PM2.5 di 3 titik industri menggunakan HVAS selama 24 jam. Hasil pengukuran menunjukkan konsentrasi sebesar 42,6–71,8 µg/m³, dengan 2 titik melebihi baku mutu PP No. 22 Tahun 2021. Penelitian juga menemukan keluhan warga berupa batuk, iritasi mata, tenggorokan kering, dan sesak napas.",
+  url: "https://e-journal.nalanda.ac.id/index.php/jkpu/article/view/2573"
+ },
+ {
+  t: "Pengukuran kualitas udara particulate matter (PM2,5) dalam ruangan di PT. Rekind Daya Mamuju",
+  p: "Penelitian Indoor Air Quality",
+  s: "Penelitian dilakukan di 5 ruangan PLTU batubara. Hasilnya, 4 ruangan memenuhi syarat, sedangkan 1 ruangan DCS melebihi ambang batas dengan konsentrasi PM2.5 sebesar 71,3 µg/m³. Temuan ini menunjukkan bahwa polusi dari udara luar dapat masuk dan memengaruhi kualitas udara di dalam ruang kerja.",
+  url: "https://jurnal.poltekkesmamuju.ac.id/index.php/mpc/article/view/1744"
+ },
+ {
+  t: "Indonesia’s air pollution deaths surged by 42% in September - CREA",
+  p: "Laporan Data Polusi Udara",
+  s: "Laporan CREA menyebutkan kematian terkait polusi udara meningkat 42% menjadi 5.310 pada September 2026, dengan 3.560 kematian berkaitan dengan asap kebakaran hutan dan lahan. Sebanyak 57,8 juta orang terpapar udara tidak sehat dan tercatat 333.470 kasus ISPA di 7 provinsi.",
+  url: "https://energyandcleanair.org/indonesias-air-pollution-deaths-surged-by-42-in-september-as-government-resists-declaring-karhutla-a-national-emergency/"
+ },
+ {
+  t: "Impact of particulate air pollution on airway injury and epithelial plasticity",
+  p: "Mekanisme Kerusakan Paru",
+  s: "Artikel ini menjelaskan bagaimana PM2.5 dapat memicu pembentukan ROS mitokondria, stres oksidatif, dan aktivasi jalur inflamasi NF-κB. Proses tersebut berkontribusi terhadap kerusakan barier epitel, hipersekresi mukus, serta perubahan jaringan yang dapat berhubungan dengan perkembangan PPOK.",
+  url: "https://pubmed.ncbi.nlm.nih.gov/38524119/"
+ },
+ {
+  t: "Soft mist, dry powder, and smart inhalers: Comparative technologies and clinical impact on asthma and COPD management",
+  p: "Teknologi Inhaler",
+  s: "Artikel ini membandingkan tiga teknologi inhaler. Soft Mist Inhaler (SMI) menghasilkan kabut bergerak lambat untuk membantu deposisi obat di paru-paru. Dry Powder Inhaler (DPI) membutuhkan aliran inspirasi yang memadai, sedangkan Smart Inhaler memanfaatkan sensor dan teknologi digital untuk memantau penggunaan serta kepatuhan terapi.",
+  url: "https://link.springer.com/article/10.1186/s43168-025-00461-8"
+ },
+ {
+  t: "Analisis mendalam bahaya polusi udara dan upaya pencegahan preventif yang efektif",
+  p: "Pencegahan dan Mitigasi",
+  s: "Artikel ini membahas dampak polusi udara terhadap sistem pernapasan dan kardiovaskular. Upaya pencegahan yang dibahas meliputi pengendalian emisi, pemantauan Air Quality Index (AQI), penggunaan respirator, filtrasi udara, dan peningkatan edukasi masyarakat mengenai bahaya polusi udara.",
+  url: "https://jurnal.stikeskesosi.ac.id/index.php/Antigen/article/view/732"
+ }
+];
+
+var TEAM=[
+ {n:"Oktavia Suci Ramadani",r:"Penulis",img:"assets/oktavia.jpeg",d:"oktaviaipeh@gmail.com"},
+ {n:"Rindi Ratna Sari",r:"Penulis",img:"assets/rindi.jpeg",d:"rindiiratnasarii@gmail.com"},
+ {n:"Sheilla Nabilla",r:"Penulis",img:"assets/sheila.jpeg",d:"seilanabila595@gmail.com"}
+]
+
+var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ---------- jurnal ---------- */
+
+function jhtml(){
+ return JOURNALS.map(function(x,i){
+  return `
+   <article class="j">
+    <div class="body">
+
+     <span class="mono">
+      JURNAL ${String(i+1).padStart(2,'0')} · ${x.p}
+     </span>
+
+     <h3>${x.t}</h3>
+
+     <p class="description">${x.s}</p>
+
+     <a class="btn journal-btn"
+        href="${x.url}"
+        target="_blank"
+        rel="noopener noreferrer">
+        Baca Jurnal ↗
+     </a>
+
+    </div>
+   </article>
+  `;
+ }).join('');
+}
+
+$('#jprod').innerHTML = '';
+$('#jall').innerHTML = jhtml();
+
+/* ---------- tim ---------- */
+$('#team').innerHTML=TEAM.map(function(p){
+ return `
+  <article class="person">
+   <div class="ph">
+    <img src="${p.img}" alt="Foto ${p.n}" class="team-img">
+   </div>
+   <div class="tx">
+    <span class="mono" style="color:var(--moss-ink)">${p.r}</span>
+    <h3>${p.n}</h3>
+    <p style="color:var(--muted);margin-top:6px">${p.d}</p>
+   </div>
+  </article>
+ `;
+}).join('');
+
+/* ---------- carousel ---------- */
+function carousel(root,auto){
+ var tr=$('.track',root), sl=$$('.slide',root), dw=$('.dots',root), cur=0, timer;
+ dw.innerHTML=sl.map(function(_,i){return '<button class="dot" type="button" role="tab" aria-label="Slide '+(i+1)+'" data-i="'+i+'"></button>'}).join('');
+ function mark(){$$('.dot',dw).forEach(function(d,i){d.setAttribute('aria-current',i===cur)})}
+ function go(i){cur=(i+sl.length)%sl.length;tr.scrollTo({left:cur*tr.clientWidth,behavior:'smooth'});mark()}
+ tr.addEventListener('scroll',function(){var i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth));if(i!==cur){cur=i;mark()}},{passive:true});
+ dw.addEventListener('click',function(e){var b=e.target.closest('.dot');if(b){go(+b.dataset.i);rst()}});
+ $('.prev',root).onclick=function(){go(cur-1);rst()}; $('.next',root).onclick=function(){go(cur+1);rst()};
+ function rst(){clearInterval(timer);if(auto&&!matchMedia('(prefers-reduced-motion:reduce)').matches)timer=setInterval(function(){if(root.offsetParent!==null)go(cur+1)},7000)}
+ tr.addEventListener('pointerdown',function(){clearInterval(timer)});
+ mark();rst();
+}
+carousel($('#heroC'),true);
+
+/* ---------- router ---------- */
+var PAGES=['beranda','produk','jurnal','tentang'];
+function route(){
+ var h=(location.hash||'#beranda').slice(1); if(PAGES.indexOf(h)<0)h='beranda';
+ PAGES.forEach(function(p){$('#p-'+p).hidden=(p!==h)});
+ $$('#nav a').forEach(function(a){if(a.getAttribute('href')==='#'+h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+ window.scrollTo(0,0);
+ var c=$('#p-'+h+' .track'); if(c) c.scrollLeft=0;
+}
+addEventListener('hashchange',route); route();
+
+/* ---------- tema ---------- */
+var tb=$('#themeBtn');
+function isDark(){var t=document.documentElement.dataset.theme;return t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
+function lab(){tb.textContent=isDark()?'Mode terang':'Mode gelap'}
+tb.onclick=function(){document.documentElement.dataset.theme=isDark()?'light':'dark';lab()}; lab();
+</script>
+
+</body></html>
